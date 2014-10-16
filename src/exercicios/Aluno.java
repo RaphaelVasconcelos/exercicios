@@ -13,8 +13,15 @@ import java.util.Map;
  */
 class Aluno {
     private String nome;
-    private Integer qtdMaterias;
-    private Map<Integer,Float> notasMaterias;
+    private Integer codigo;
+    private Double cr;
+    private Map<Integer,Double> notasMaterias;
+
+    Aluno(String nome, Integer codigoAluno, Map<Integer, Double> notasMaterias) {
+        this.nome = nome;
+        this.codigo = codigoAluno;
+        this.notasMaterias = notasMaterias;
+    }
 
     public String getNome() {
         return nome;
@@ -24,21 +31,33 @@ class Aluno {
         this.nome = nome;
     }
 
-    public Integer getQtdMaterias() {
-        return qtdMaterias;
-    }
-
-    public void setQtdMaterias(Integer qtdMaterias) {
-        this.qtdMaterias = qtdMaterias;
-    }
-
-    public Map<Integer,Float> getNotasMaterias() {
+    public Map<Integer,Double> getNotasMaterias() {
         return notasMaterias;
     }
 
-    public void setNotasMaterias(Map<Integer,Float> notasMaterias) {
+    public void setNotasMaterias(Map<Integer,Double> notasMaterias) {
         this.notasMaterias = notasMaterias;
     }
-    
-    
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the cr
+     */
+    public Double getCr() {
+        return cr;
+    }
+
+    /**
+     * @param cr the cr to set
+     */
+    public void setCr(Double cr) {
+        this.cr = cr;
+    }
 }

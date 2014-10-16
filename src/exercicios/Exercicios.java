@@ -7,7 +7,10 @@ package exercicios;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 /**
@@ -21,12 +24,25 @@ public class Exercicios {
      */
     public static void main(String[] args) {
         exercicio1();
+
+        exercicio2(); 
         
-        exercicio2();
-         
-        List<Disciplina> disciplinas = new ArrayList<Disciplina>();
+        exercicio3();
+    }
+
+    private static void exercicio3() {
+        List<Disciplina> disciplinas = cadastraDisciplina();
         
-        for(Integer i=0; i < 5; i++){
+        List<Aluno> alunos = cadastraAlunos();
+        
+        calculaNotas(alunos, disciplinas);
+        
+        imprimeCr(alunos);
+    }
+
+    private static List<Disciplina> cadastraDisciplina() {        
+        List<Disciplina> disciplinas = new ArrayList<>();
+        for(Integer i=0; i < 2; i++){
             System.out.println("Digite o codigo da materia e em seguida seus creditos");
             
             Scanner scanner = new Scanner(System.in);
@@ -38,9 +54,58 @@ public class Exercicios {
             
             disciplinas.add(new Disciplina(codigoMateria, creditoMateria));
         }
-        
-        List<Aluno> alunos = new ArrayList<Aluno>();
-        
+        return disciplinas;
+    }
+
+    private static List<Aluno> cadastraAlunos() {
+        List<Aluno> alunos = new ArrayList<>();
+        String nome = "";
+        while(!nome.equals("fim")){
+            System.out.println("Digite o nome do aluno");
+            Scanner scanner = new Scanner(System.in);
+            nome = scanner.nextLine();
+            if(!nome.equals("fim")){
+                System.out.println("Digite o codigo do aluno");
+                Integer codigoAluno = scanner.nextInt();
+            
+                System.out.println("Digite quantas materias cursadas do aluno");
+                Integer quantidadeDeMateria = scanner.nextInt();
+                Map<Integer, Double> notasMaterias = new HashMap<Integer, Double>();
+            
+                for(Integer i = 0; i < quantidadeDeMateria; i++){
+                    System.out.println("Digite o codigo da materia e depois a nota do aluno");
+                    Integer codigoMateria = scanner.nextInt();
+                    Double notaAluno = scanner.nextDouble();
+                    notasMaterias.put(codigoMateria, notaAluno);
+                }
+            
+                alunos.add(new Aluno(nome, codigoAluno, notasMaterias));
+            }
+        }
+        return alunos;
+    }
+
+    private static void calculaNotas(List<Aluno> alunos, List<Disciplina> disciplinas) {
+        for(Aluno aluno : alunos){
+            Integer cargaHoraria = 0;
+            Double notas = 0.0;
+            for(Entry<Integer, Double> disciplinaEnota : aluno.getNotasMaterias().entrySet()){
+                for(Disciplina disciplina : disciplinas){
+                    if(disciplinaEnota.getKey() == disciplina.getCodigo()){
+                        cargaHoraria+= disciplina.getCredito();
+                        notas+= disciplinaEnota.getValue()* disciplina.getCredito();
+                    }
+                }          
+            }
+            aluno.setCr(notas / cargaHoraria);
+        }
+    }
+
+    private static void imprimeCr(List<Aluno> alunos) {
+        for(Aluno aluno : alunos ){
+            System.out.println("Nome: " + aluno.getNome());
+            System.out.println("Cr: " + aluno.getCr());
+        }
     }
 
     private static void exercicio2() {
